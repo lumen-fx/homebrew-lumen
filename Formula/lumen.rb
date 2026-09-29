@@ -18,6 +18,10 @@
 # macOS reports the path used to launch, not the resolved one, and the library
 # would go missing.
 #
+# lumen-server, the production server for server-rendered sites, needs nothing
+# beside it; it gets the same exec script so both commands are installed the
+# same way. `lumenc web --serve` finds it beside lumenc in libexec.
+#
 # Nothing here installs a receipt under share/lumen. That file is what marks a
 # copy as installed and turns the built-in update check on
 # (public/lumenc/src/package/update_check.rs); without it lumenc never checks for a
@@ -30,30 +34,30 @@
 class Lumen < Formula
   desc "Toolchain for Lumen, a markup-first UI framework for native desktop apps"
   homepage "https://lumenfx.dev"
-  version "0.0.7"
+  version "0.0.8"
   license "MPL-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.7/lumen-macos-aarch64.tar.gz"
-      sha256 "542dceae61348d46e20e037c2bd4eb55c2ab7ebbc09760c0a15e89562e0aabc6"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.8/lumen-macos-aarch64.tar.gz"
+      sha256 "0a6299914b1895d184dc4db735e06f0eb8b16483cd0b3a8230be0964e819af09"
     end
 
     on_intel do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.7/lumen-macos-x86_64.tar.gz"
-      sha256 "92eb9337ec20b31f9e37b45d8a14c577d6b3730ce5731886371e63a4e232675b"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.8/lumen-macos-x86_64.tar.gz"
+      sha256 "a0334914fb132932569b65186103468361c4203e009db6826e0f73f3fa05d1af"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.7/lumen-linux-aarch64.tar.gz"
-      sha256 "4a6667370f0ceb66e41193b002b6337f20eba2438243e4d7b1cac3cc66a7f2f1"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.8/lumen-linux-aarch64.tar.gz"
+      sha256 "e71fbd8bf278233316fdace347223afdd7a1bad8dbfdc8f26d0e18ae9a0fe4c4"
     end
 
     on_intel do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.7/lumen-linux-x86_64.tar.gz"
-      sha256 "c1ef489491bf2955eca5d3b09d66d14c9ab2c1e7b403a2dee7e67ad49768afae"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.8/lumen-linux-x86_64.tar.gz"
+      sha256 "e22fa27c4f05169b0959d15cf864970af3ee94a1c17b1f11f9a79cfd9db38f51"
     end
   end
 
@@ -65,6 +69,7 @@ class Lumen < Formula
   def install
     libexec.install Dir["bin/*"]
     bin.write_exec_script libexec/"lumenc"
+    bin.write_exec_script libexec/"lumen-server"
   end
 
   test do
