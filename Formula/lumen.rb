@@ -24,6 +24,10 @@
 # same way. `lumenc web --serve` finds the server beside lumenc in libexec, and
 # an editor finds the language server on PATH.
 #
+# lumen-crash, the crash helper, stays in libexec with no script in bin:
+# nobody runs it by hand, and `lumenc package` copies it from beside the
+# lumenc it runs as into every package.
+#
 # Nothing here installs a receipt under share/lumen. That file is what marks a
 # copy as installed and turns the built-in update check on
 # (public/lumenc/src/package/update_check.rs); without it lumenc never checks for a
@@ -36,30 +40,30 @@
 class Lumen < Formula
   desc "Toolchain for Lumen, a markup-first UI framework for native desktop apps"
   homepage "https://lumenfx.dev"
-  version "0.0.10"
+  version "0.0.11"
   license "MPL-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.10/lumen-macos-aarch64.tar.gz"
-      sha256 "4151f2ab6829da80c2b95f1976554441e6257f3637d9e8332fb9f6d2a584de80"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.11/lumen-macos-aarch64.tar.gz"
+      sha256 "177b36697a47205718bf910e697f09dc6377268b6657c080f3d4ab68c11f8ec2"
     end
 
     on_intel do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.10/lumen-macos-x86_64.tar.gz"
-      sha256 "9e1680eaa4b690569464a12de8462c5f563ee9fec6b9f8025cb517668258e8d7"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.11/lumen-macos-x86_64.tar.gz"
+      sha256 "b98bb5005374531d496b52ad749be48472900f9ec859a9c1b1e442a073581f89"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.10/lumen-linux-aarch64.tar.gz"
-      sha256 "ab6f1e2e88d91ca58eb001b398f89d31fd830e1ab93bbd6af301dec1edeeac5f"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.11/lumen-linux-aarch64.tar.gz"
+      sha256 "883637acca02422642772f15b1668a3d1822e14258bf8c5d6dc0a8781eea20bb"
     end
 
     on_intel do
-      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.10/lumen-linux-x86_64.tar.gz"
-      sha256 "c4fb1df2b7a9b2acf0374e53c7dd436a90d42ab33a33a072e8558d752c51c1fa"
+      url "https://github.com/lumen-fx/lumen/releases/download/v0.0.11/lumen-linux-x86_64.tar.gz"
+      sha256 "ca293be9a1ad418c049f31e1a05cf7bc4ed80d28312a176e2463970825e585c2"
     end
   end
 
@@ -77,6 +81,7 @@ class Lumen < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/lumenc --version")
+    assert_predicate libexec/"lumen-crash", :executable?
 
     system bin/"lumenc", "new", "smoke"
     assert_predicate testpath/"smoke/main.lmn", :exist?
